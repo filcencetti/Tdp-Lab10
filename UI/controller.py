@@ -27,3 +27,18 @@ class Controller:
 
         self._view.update_page()
 
+    def handleReachableCountries(self, e):
+        self._view._txt_result.controls.clear()
+        self._model.getReachableState(self._state)
+        for country in self._model._reachableCountries:
+            if country != self._state:
+                self._view._txt_result.controls.append(ft.Text(country))
+        self._view.update_page()
+
+    def fillCountries(self,year):
+        for c in self._model._countries:
+            self._view._ddCountries.options.append(ft.dropdown.Option(text=c.StateName, data=c,on_click=self.read_country))
+        self._view.update_page()
+
+    def read_country(self,e):
+        self._state = e.control.data
