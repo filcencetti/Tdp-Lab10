@@ -11,31 +11,21 @@ class Model:
 
 
     def buildGraph(self,year):
-        self.getCountries(year)
         self._graph = nx.Graph()
-        self._graph.add_nodes_from(self._countries)
-        self._graph.add_edges_from(self._edges)
-
-
-    def getCountries(self, year):
-        (self._countries,self._edges) = DAO.getCountries(year)
+        self._graph.add_nodes_from(DAO.getAllCountries(year))
+        self._graph.add_edges_from(DAO.getBorders(int(year)))
 
     def getReachableState(self,state):
-        parziale = []
-        parziale.append(state)
-        self._reachableCountries = self.ricorsione(parziale)
+            visited = []
+            self._recursive_visit(state, visited)
+            visited.remove(state)
+            return visited
 
+    def _recursive_visit(self, state, visited):
+            visited.append(state)
 
-    def ricorsione(self,parziale):
-        count = 0
-        for i in parziale:
-            for arch in self._graph.edges():
-                if arch[0] == i:
-                    if arch[1] in parziale:
-                        count += 1
-                        if count == len(parziale):
-                            return parziale
-
-                    else:
-                        parziale.append(arch[1])
-        self.ricorsione(parziale)
+            # Iterate through all neighbors of n
+            for c in self._graph.neighbors(state):
+                # Filter: visit c only if it hasn't been visited yet
+                if c not in visited:
+                    self._recursive_visit(c, visited)
