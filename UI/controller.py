@@ -29,8 +29,7 @@ class Controller:
 
     def handleReachableCountries(self, e):
         self._view._txt_result.controls.clear()
-        self._model.getReachableState(self._state)
-        reachable_countries = self._model.getReachableState(self._state)
+        reachable_countries = self._model.getReachableState1(self._state)
         reachable_countries.remove(self._state)
         self._view._txt_result.controls.append(ft.Text(f"Da {self._state} sono raggiungibili {len(reachable_countries)}:"))
         for country in reachable_countries:
