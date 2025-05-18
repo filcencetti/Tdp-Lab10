@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass
-class Country():
+class Country:
     StateAbb : str
     CCode : int
     StateNme : str

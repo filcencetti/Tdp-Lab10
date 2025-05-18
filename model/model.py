@@ -2,7 +2,6 @@ import networkx as nx
 
 from database.DAO import DAO
 
-
 class Model:
 
     def __init__(self):
@@ -15,7 +14,16 @@ class Model:
         self._graph.add_nodes_from(DAO.getAllCountries(year))
         self._graph.add_edges_from(DAO.getBorders(int(year)))
 
-    def getReachableState(self,state):
+
+    def getReachableState1(self,state):
+        tree = nx.bfs_tree(self._graph,state)
+        return list(tree.nodes())
+
+    def getReachableState2(self,state):
+        tree = nx.dfs_tree(self._graph,state)
+        return list(tree.nodes())
+
+    def getReachableState3(self,state):
             visited = []
             self._recursive_visit(state, visited)
             visited.remove(state)
